@@ -7,6 +7,10 @@
   Do not put the title, authors or other metadata in this document;
   those are automatically added.
 
+.. warning::
+  This technical note is currently a draft!
+
+
 :tocdepth: 1
 
 ======================================
