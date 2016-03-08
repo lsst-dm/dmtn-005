@@ -24,8 +24,8 @@ implementation. In other packages, the use is mostly in tests or examples.
 afw
 ---
 
-python
-^^^^^^
+afw/python
+^^^^^^^^^^
 cameraGeom/makePixelToTanPixel.py
   Doesn't use wcs, but shouldn't it?
 cameraGeom/fitsUtils.py
@@ -53,8 +53,8 @@ math/warper.py
   skyToPixel(pixelToSky) for the edges of the bounding box. Calls mathLib for the
   real work of warpExposure and warpImage.
 
-src
-^^^
+afw/src
+^^^^^^^
 detection/Footprint::transformPoint and Footprint::transform
   Transform point x,y from one image to another via skyToPixel and pixelToSky,
   and use transformPoint to transform corners and loop over points.
@@ -62,12 +62,12 @@ detection/Footprint::transformPoint and Footprint::transform
 ExposureFormatter/TanWcsFormatter/WcsFormatter
   How to persist a wcs.
 gpu
-  There's afw::gpu, but it's not clear to me whether or how it's being used.
+  There's afw::gpu, but it is only referenced in afw and the implemetation is several years old: should it be dropped?
   math::detail::cudaLanczosWrapper imports Wcs.h, but doesn't seem to do anything with it.
 image
-  DistoredTanWcs - mostly not implemented
-  stuff for reading/writing fits files
-  makeWcs - where the magic happens?
+  DistoredTanWcs - mostly not implemented!
+  Exposure.cc, ExposureInfo.cc, Image.cc, Mask.cc have utilities for reading/writing Wcs to FITS.
+  makeWcs - Produce a WCS object from a FITS header.
   TanWcs - where the magic happens
   Wcs - where the magic really happens
 math
@@ -76,8 +76,8 @@ table
   Exposure.cc reads/writes wcs and uses it to find whether a point is in the exposure.
   Source.cc updateCoord uses pixelToSky on either the centroid or a given center.
 
-examples
-^^^^^^^^
+afw/examples
+^^^^^^^^^^^^
 timeWarpExposure.py
   Test several interpolation lengths, (one) scale factor, (one) arcsec offset,
   rotation angle and kernel name, making a Wcs and timing how long it takes to warp an exposure with it.
@@ -88,8 +88,8 @@ timeWarpGpu.cc
 wcsTest.cc
   Demo of outputting various computed values from a FITS file with a WCS.
 
-tests
-^^^^^
+afw/tests
+^^^^^^^^^
 sipterms.cc
   Tests linearWcs vs. sipWcs.
 testWarpGpu.cc
@@ -103,8 +103,8 @@ testWcs.cc
 ip_diffim
 ---------
 
-python
-^^^^^^
+ip_diffim/python
+^^^^^^^^^^^^^^^^
 getTemplate.py
   Calls pixelToSky on an exposure's center/corners and skyToPixel() on the sky corners.
 imagePsfMatch.py
@@ -123,12 +123,12 @@ utils.py
   showSourcesSetSky uses for loop over sources to call skyToPixel to draw dots in ds9.
   plotWhisker uses pixelToSky to compute offsets between a set of astrometric matches.
 
-src
-^^^
+ip_diffim/src
+^^^^^^^^^^^^^
 No references to Wcs at all in src!
 
-examples
-^^^^^^^^
+ip_diffim/examples
+^^^^^^^^^^^^^^^^^^
 Several examples call warpExposure with exposure.getWcs() as the first arg, but that's nicely abstracted.
 
 imagePsfMatchTask
@@ -136,8 +136,8 @@ imagePsfMatchTask
 snapPsfMatchTask
   generates a fake WCS as a FITS header.
 
-tests
-^^^^^
+ip_diffim/tests
+^^^^^^^^^^^^^^^
 PsfMatchTestCases.makeWcs
   generates a fake WCS as a FITS header, which is what all the tests use to build their fake wcs.
 SnapPsfMatch.makeWcs
@@ -147,8 +147,8 @@ SnapPsfMatch.makeWcs
 meas_astrom
 -----------
 
-python
-^^^^^^
+meas_astrom/python
+^^^^^^^^^^^^^^^^^^
 anetAstrometry.py
   uses hasDistortion(), shiftReferencePixel(), skyToPixel(), pixelToSky() and
   calls makeCreateWcsWithSip()
@@ -169,8 +169,8 @@ matchOptimisticB.py
 sip/cleanBadPoints.py
   Calls skyToPixel, though appears to be broken? Only applies to X array.
 
-src
-^^^
+meas_astrom/src
+^^^^^^^^^^^^^^^
 makeMatchStatistics.cc
   makeMatchStatisticsInPixels/makeMatchStatisticsInRadians statistics of on-
   sky/detector given a wcs and a list of matches. Use skyToPixel and pixelToSky,
@@ -189,8 +189,8 @@ MatchSrcToCatalogue.ccf
   source and image lists. Appears to do this via image->updateCoord(wcs), as the
   wcs is not used elsewhere.
 
-examples
-^^^^^^^^
+meas_astrom/examples
+^^^^^^^^^^^^^^^^^^^^
 getSourceSet.py
   ``makeCcdMosaic()`` creates a wcs from FITS metadata. ``showStandards()`` gets
   a wcs from an image and uses skyToPixel to check whether standards are in the
@@ -207,8 +207,8 @@ ticket2710.py
 wcsPlots
   Used by some of the above to plot matches, using skyToPixel()
 
-tests
-^^^^^
+meas_astrom/tests
+^^^^^^^^^^^^^^^^^
 CreateWcsWithSip.py
   Calls pixelToSky() and skyToPixel(). Some commented out FITS code, and an updateCoord call.
 openFiles.py
