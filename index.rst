@@ -66,9 +66,13 @@ gpu
   math::detail::cudaLanczosWrapper imports Wcs.h, but doesn't seem to do anything with it.
 image
   DistoredTanWcs - mostly not implemented!
+
   Exposure.cc, ExposureInfo.cc, Image.cc, Mask.cc have utilities for reading/writing Wcs to FITS.
+
   makeWcs - Produce a WCS object from a FITS header.
+
   TanWcs - where the magic happens
+  
   Wcs - where the magic really happens
 math
   warpExposure extensive use of wcs for pixel position calculations/conversions
