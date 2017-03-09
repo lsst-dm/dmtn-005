@@ -8,10 +8,7 @@
   those are automatically added.
 
 .. warning::
-  This technical note is currently a draft!
-
-
-:tocdepth: 1
+  This technical note was up-to-date as of 2016-01-18; changes in the stack since then are not reflected in its contents.
 
 ======================================
 Current usage of WCS in the lsst stack
