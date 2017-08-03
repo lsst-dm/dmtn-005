@@ -1,8 +1,20 @@
 sudo: false
 language: python
-python:
-      - 3.4
-install: "pip install -r requirements.txt"
-script: "make html"
-notifications:
-      email: false
+matrix:
+  include:
+    - python: "3.5"
+      env: LTD_MASON_BUILD=true
+install:
+  - pip install -r requirements.txt
+  - pip install "ltd-mason>=0.2,<0.3"
+script:
+  - sphinx-build -b html -a -n -d _build/doctree . _build/html
+after_success:
+  - ltd-mason-travis --html-dir _build/html
+env:
+  global:
+    - LTD_MASON_BUILD=false  # disable builds in regular text matrix
+    - LTD_MASON_PRODUCT="dmtn-005"
+    # Add AWS and LTD Keeper credentials as encrypted secrets here
+    - secure: "BNTEPH8tSFqsRxHDn+gWtm8zZsetVfIu+AfHl7O81Gnd2I1zR+MyYgUX/ObwSjFjOOgM57rz5gk1Rx44QcSlJRIRwh9vElWVBHnCE6ptwKe2sVx8l8QP1BHADUmcU9yKh7X0Id2xswJqmEnwYFn3+rrcQoAQ1Gcg93lekQQi6VQjauZOyv6q0Hg92sDCja9u3AHK4anjQS4ZfoJm3NsIBXIvwp2GLfhP2pZYcyCo0pNSvGvdnZ9UHUJ4OdxH8QLRXToJSJRBfnsq4VX+cGFP5mVGIXXOqtORasZyZ64aqjj8nqJ6CruAVcT1WHsBRik1IkhGUQ/CNjbgIT+tlmzt55uyAB/uMufwDP3Q/rsZFtNi87mPqawaXf467PDfcOT4Sw5JFSlqU6AzTENvsbegwY26NrnoVOKRT6J2gNRvCVClRdnsHwH61lYlcTEKh8xWV1eOVT4DfFjgOR29XG4llx6i4Q4pu2MGmb+I1TJMtXEpDOfIMXLO12918pmfUs0GzjJUlinSpMazVI72KqoC6clesSUaCvyCfgrRSWWhQSapb1nNfqvlKEGJki5ES+T170pXURl/lS+mUAxWRQ0w2SHKYssIWXo6CtglUYTz1DDa8e37GtrEcvd0Cbfj82BRVR5Njwc8+mqBfVQbtccPGF/EzkiM2AdCt6/nHkPn7Dk="
+    - secure: "YX5+rJTXGCZWbyrq87lsErXBU8YENuCkS/Zaz6NShrnspNdUeFEtxysI2/+767eDewqhOyvtVXL5ewDE6f5ZlbztDk99orWz2PvYzL77EYaXZiUrcxqFZI1k5UH/Ztxy1Kx9k1C2nV8GLMtg0Th7yEc7toss2tqjDR7G1LZ63eLcAYhcXOoK1slLvtVHznT7AA4aFJ2j7ZNcV2Ip8vKzb1NAxgtYmhO69q4bGF+JOoamRD5TPegM3p6CGhlkKNW2Z1ytx7C2q+rm9wqHmfpSHockI9sHYkwg420MREpUjzNnT4SCYmtUlhPcb7hbIUwqWCf/CAn9ULv1k4JhzElcrGzAQiRGhlqOlmDQxPCo519/jFCpJOf+1yyaIASYZoq7EF7aELxFUTjAoVrBgnXjtNVIu55tt/EVIbsSXd9QAhgY+TTcrkZrK3FqgEd25Y0JBVdXfSzzr16yp+xYO76JUCCbaIZCBV747RrySinbfdz8uBGk/kIK2ZFursHn3ziMIkzOuqq6RXSxMXIQ3NiFjdqn2StCguCYp2/5oRZ2aA76RiGAQrTsJwni73Xg3dBTMyGqyHc5rxPt8PDq8rklnBpKsz0p23yCj31y7RBP1kjgoLA+1uLTuI8bx96dDr376QITR5hr/6NsUIYODm9XgY4SU401/tA/ls2Nuoat3Zo="
